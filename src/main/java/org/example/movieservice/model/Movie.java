@@ -3,6 +3,8 @@ package org.example.movieservice.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 @Document(collection = "movies")
 public class Movie {
 
@@ -11,7 +13,7 @@ public class Movie {
 
     private String title;
     private String language;
-    private String genre;
+    private List<String> genre;
     private Integer durationMinutes;
     private String certificate;
 
@@ -20,7 +22,7 @@ public class Movie {
 
     public Movie(String title,
                  String language,
-                 String genre,
+                 List<String> genre,
                  Integer durationMinutes,
                  String certificate) {
         this.title = title;
@@ -54,11 +56,11 @@ public class Movie {
         this.language = language;
     }
 
-    public String getGenre() {
+    public List<String> getGenre() {
         return genre;
     }
 
-    public void setGenre(String genre) {
+    public void setGenre(List<String> genre) {
         this.genre = genre;
     }
 
