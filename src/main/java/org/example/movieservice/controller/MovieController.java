@@ -1,7 +1,13 @@
 package org.example.movieservice.controller;
 
+import org.apache.coyote.Request;
 import org.example.movieservice.model.Movie;
+import org.example.movieservice.response.ResponseStatus;
 import org.example.movieservice.service.MovieService;
+import org.example.movieservice.response.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,33 +23,52 @@ public class MovieController {
     }
 
     @GetMapping
-    public List<Movie> getAllMovies() {
-        return movieService.getAllMovies();
+    public ResponseEntity<ResponseStatus<List<Movie>>> getAllMovies() {
+        List <Movie> Movies=movieService.getAllMovies();
+
+        return ResponseEntity.ok(
+                new ResponseStatus<>(true, "Movies fetched successfully", Movies)
+        );
     }
 
     @GetMapping("/{id}")
-    public Movie getMovieById(@PathVariable String id) {
-        return movieService.getMovieById(id);
+    public ResponseEntity<ResponseStatus<Movie>> getMovieById(@PathVariable String id) {
+
+        Movie movie = movieService.getMovieById(id);
+
+        return ResponseEntity.ok(
+                new ResponseStatus<>(true, "Movie fetched successfully", movie)
+        );
     }
 
     @PostMapping
-    public Movie createMovie(@RequestBody Movie movie) {
-        return movieService.createMovie(movie);
+    public ResponseEntity<ResponseStatus<Movie>> createMovie(@RequestBody Movie movie) {
+        Movie createMovie=movieService.createMovie(movie);
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(new ResponseStatus<>(true, "Movie created successfully", createMovie)
+        );
     }
 
     @PutMapping("/{id}")
-    public Movie updateMovie(
+    public ResponseEntity<ResponseStatus<Movie>> updateMovie(
             @PathVariable String id,
             @RequestBody Movie movie) {
 
-        return movieService.updateMovie(id, movie);
+        Movie updatedMovie = movieService.updateMovie(id, movie);
+
+        return ResponseEntity.ok(
+                new ResponseStatus<>(true, "Movie updated successfully", updatedMovie)
+        );
     }
 
     @DeleteMapping("/{id}")
-    public String deleteMovie(@PathVariable String id) {
+    public ResponseEntity<ResponseStatus<Void>> deleteMovie(@PathVariable String id) {
 
         movieService.deleteMovie(id);
 
-        return "Movie deleted successfully";
+        return ResponseEntity.ok(
+                new ResponseStatus<>(true, "Movie deleted successfully", null)
+        );
     }
 }
