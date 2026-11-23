@@ -1,5 +1,6 @@
 package org.example.movieservice.service;
 
+import org.example.movieservice.exception.MovieNotFoundException;
 import org.example.movieservice.model.Movie;
 import org.example.movieservice.repository.MovieRepository;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ public class MovieService {
 
     public Movie getMovieById(String id) {
         return movieRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Movie not found"));
+                .orElseThrow(() -> new MovieNotFoundException("Movie not found" + id));
     }
 
     public Movie createMovie(Movie movie) {
