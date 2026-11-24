@@ -1,0 +1,15 @@
+services:
+  movie-service:
+    image: sandeep07k/movie-service:1.0.0
+    container_name: movie-service
+    ports:
+      - "8082:8082"
+    environment:
+      MONGODB_URI: ${MONGODB_URI}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8082/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
