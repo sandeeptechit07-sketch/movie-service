@@ -29,7 +29,7 @@ public class GlobalExceptionHandler {
 
         ResponseStatus<Void> response = new ResponseStatus<>(
                 false,
-                "Something went wrong. Please try again later.",
+                "Something went wrong. Please try again later...",
                 null
         );
 
